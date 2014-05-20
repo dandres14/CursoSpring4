@@ -2,21 +2,26 @@ package com.mycompany.cuentas.modelo;
 
 import java.util.Calendar;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
+
 import org.springframework.format.annotation.DateTimeFormat;
 
 public class Cuenta {
-	
+
 	private Long id;
 
+	@NotNull(message="{cuenta.formulario.descripcion.obligatorio}")
+	@Size(min = 5, message = "{cuenta.formulario.descripcion.tamanho}")
 	private String descripcion;
 
 	private boolean pago;
-	
+
 	private double valor;
 
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Calendar fechaPago;
-	
+
 	private TipoDeCuenta tipo;
 
 	public Long getId() {
@@ -66,7 +71,4 @@ public class Cuenta {
 	public void setTipo(TipoDeCuenta tipo) {
 		this.tipo = tipo;
 	}
-
-	
-
 }

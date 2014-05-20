@@ -2,8 +2,11 @@ package com.mycompany.cuentas.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.mycompany.cuentas.dao.CuentaDAO;
@@ -18,8 +21,14 @@ public class CuentaController {
 	}
 
 	@RequestMapping("/agregarCuenta")
-	public String agregarCuenta(Cuenta cuenta) {
-		System.out.println("La cuenta agregada es " + cuenta.getDescripcion());
+	public String agregarCuenta(@Valid Cuenta cuenta, BindingResult result) {
+		if (result.hasErrors()) {
+			return "cuenta/formulario";
+		}
+//		System.out.println("La cuenta agregada es " + cuenta.getDescripcion());
+//		if(cuenta.getDescripcion()==null || cuenta.getDescripcion().equals("")){
+//			return "cuenta/formulario";
+//		}
 		CuentaDAO dao = new CuentaDAO();
 		dao.agregar(cuenta);
 		return "cuenta/cuenta-agregada";
