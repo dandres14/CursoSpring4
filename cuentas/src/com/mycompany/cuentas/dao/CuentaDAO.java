@@ -9,21 +9,27 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.mycompany.cuentas.ConnectionFactory;
+import javax.sql.DataSource;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.mycompany.cuentas.modelo.Cuenta;
 import com.mycompany.cuentas.modelo.TipoDeCuenta;
 
+@Repository
 public class CuentaDAO {
 	private Connection connection;
 
-	public CuentaDAO() {
+	@Autowired
+	public CuentaDAO(DataSource ds) {
 		try {
-			this.connection = new ConnectionFactory().getConnection();
+			this.connection = ds.getConnection();
 		} catch (SQLException e) {
 			throw new RuntimeException(e);
 		}
 	}
-
+	
 	public void agregar(Cuenta cuenta) {
 		String sql = "insert into cuentas (descripcion, pago, valor, tipo) values (?,?,?,?)";
 		PreparedStatement stmt;

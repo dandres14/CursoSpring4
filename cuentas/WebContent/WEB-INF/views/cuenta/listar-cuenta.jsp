@@ -7,7 +7,9 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Listado de Cuentas</title>
+<script src="resources/js/system.js"></script>
+<script	src="resources/js/jquery.js"></script>
 </head>
 <body>
 	<table style="height: 10px; width: 775px;" border="1">
@@ -26,16 +28,19 @@
 				<td>${cuenta.descripcion}</td>
 				<td>${cuenta.valor}</td>
 				<td>${cuenta.tipo}</td>
-				<td id="tarifa_${cuenta.id}"><c:if
-						test="${cuenta.pago eq false}">
-No pago
-</c:if> <c:if test="${cuenta.pago eq true }">
-Pago!
-</c:if></td>
+				<td id="cuenta_${cuenta.id}">
+					<c:if test="${cuenta.pago eq false}">
+						No pago
+					</c:if>
+					<c:if test="${cuenta.pago eq true }">
+						Pago!
+					</c:if>
+				</td>
 				<td><fmt:formatDate value="${cuenta.fechaPago.time}" pattern="dd/MM/yyyy" /></td>
 				<td>
 					<a href="eliminarCuenta?id=${cuenta.id}">Eliminar</a>
 					<a href="muestraCuenta?id=${cuenta.id}">Modificar</a>
+					<a href="#" onclick="pagarAhora(${cuenta.id});">Pagar</a>
 				</td>
 				
 			</tr>

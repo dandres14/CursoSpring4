@@ -2,8 +2,10 @@ package com.mycompany.cuentas.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -15,6 +17,14 @@ import com.mycompany.cuentas.modelo.Cuenta;
 // Controller Cuenta
 @Controller
 public class CuentaController {
+	
+	private final CuentaDAO dao;
+
+	@Autowired
+	public CuentaController(CuentaDAO dao) {
+		this.dao = dao;
+	}
+	
 	@RequestMapping("/form")
 	public String mainFormulario() {
 		return "cuenta/formulario";
@@ -29,7 +39,7 @@ public class CuentaController {
 //		if(cuenta.getDescripcion()==null || cuenta.getDescripcion().equals("")){
 //			return "cuenta/formulario";
 //		}
-		CuentaDAO dao = new CuentaDAO();
+//		CuentaDAO dao = new CuentaDAO();
 		dao.agregar(cuenta);
 		return "cuenta/cuenta-agregada";
 	}
@@ -46,7 +56,7 @@ public class CuentaController {
 
 	@RequestMapping("/listarCuentas")
 	public String listar(Model mv) {
-		CuentaDAO dao = new CuentaDAO();
+//		CuentaDAO dao = new CuentaDAO();
 		List<Cuenta> cuentas = dao.listar();
 		mv.addAttribute("cuentas", cuentas);
 		return "cuenta/listar-cuenta";
@@ -54,22 +64,29 @@ public class CuentaController {
 
 	@RequestMapping("/eliminarCuenta")
 	public String remove(Cuenta cuenta) {
-		CuentaDAO dao = new CuentaDAO();
+//		CuentaDAO dao = new CuentaDAO();
 		dao.eliminar(cuenta);
 		return "redirect:listarCuentas";
 	}
 
 	@RequestMapping("/muestraCuenta")
 	public String muestra(Long id, Model model) {
-		CuentaDAO dao = new CuentaDAO();
+//		CuentaDAO dao = new CuentaDAO();
 		model.addAttribute("cuenta", dao.buscarPorId(id));
 		return "cuenta/muestra";
 	}
 
 	@RequestMapping("/modificarCuenta")
 	public String modificar(Cuenta cuenta) {
-		CuentaDAO dao = new CuentaDAO();
+//		CuentaDAO dao = new CuentaDAO();
 		dao.modificar(cuenta);
 		return "redirect:listarCuentas";
+	}
+	
+	@RequestMapping("/pagarCuenta")
+	public void pagar(Long id, HttpServletResponse response) {
+//		CuentaDAO dao = new CuentaDAO();
+		dao.pagar(id);
+		response.setStatus(200);
 	}
 }
